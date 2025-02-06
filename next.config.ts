@@ -6,6 +6,7 @@ const withPWA = withPWAInit({
   skipWaiting: true, // Activate service worker immediately
   // scope: '/app',
   sw: 'service-worker.js',
+  // disable: true, // Disable in development mode
   disable: false, // Disable in development mode
 });
 
