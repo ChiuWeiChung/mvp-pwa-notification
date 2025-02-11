@@ -17,7 +17,7 @@ interface ServiceWorkerMessage {
  *
  * @param permissionStatus - 當前的通知權限狀態
  */
-const useServiceWorkerMessageListener = (permissionStatus: NotificationPermission) => {
+const useNotificationListener = (permissionStatus: NotificationPermission) => {
   const router = useRouter();
   useEffect(() => {
     // 只有在通知權限為 Granted 時才建立事件監聽器
@@ -35,7 +35,7 @@ const useServiceWorkerMessageListener = (permissionStatus: NotificationPermissio
     return () => {
       navigator.serviceWorker.removeEventListener('message', handleServiceWorkerMessage);
     };
-  }, [permissionStatus]);
+  }, [permissionStatus, router]);
 };
 
-export default useServiceWorkerMessageListener;
+export default useNotificationListener;

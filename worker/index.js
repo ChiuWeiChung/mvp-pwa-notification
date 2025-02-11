@@ -4,8 +4,8 @@ self.addEventListener('push', async (e) => {
     body,
     dest,
     // 提供多個尺寸的圖示選項，包括 iOS 所需的尺寸
-    icon = '/icons/icon-192x192.png',
-    badge = '/icons/icon-96x96.png', // 新增 badge 圖示
+    icon = `${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-192x192.png`,
+    badge = `${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-96x96.png`, // 新增 badge 圖示
   } = JSON.parse(e.data.text());
 
   if (e.data) {
@@ -20,7 +20,7 @@ self.addEventListener('push', async (e) => {
     if (navigator.setAppBadge) {
       navigator.setAppBadge(1);
     }
-
+    console.log('====icon====', icon);
     e.waitUntil(
       self.registration.showNotification(message, {
         body,
@@ -35,25 +35,26 @@ self.addEventListener('push', async (e) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
 
-  // This looks to see if the current window is already open and
-  // focuses if it is
+  /** if the current window is already open and focuses if it is */
   event.waitUntil(
     clients
       .matchAll({
         type: 'window',
+        includeUncontrolled: true, // Add this to include uncontrolled clients
       })
       .then((clientList) => {
-        for (const client of clientList) {
-          console.log('==========');
-          console.log('event.notification.data', event.notification.data);
-          console.log('==========');
-          // if (client.url === '/' && 'focus' in client) return client.focus();
-          if (client.url.includes('localhost:5487') && 'focus' in client) {
-            return client.focus();
+        // Check if we have any clients
+        if (clientList.length > 0) {
+          // Try to focus existing window
+          for (const client of clientList) {
+            if ('focus' in client) return client.focus();
           }
         }
-        // todo: 根據 event 的 url 進行導向
-        if (clients.openWindow) return clients.openWindow('/');
+        // If no existing window found, open new one
+        if (clients.openWindow) {
+          const dest = event.notification.data?.dest || '/';
+          return clients.openWindow(`${process.env.NEXT_PUBLIC_BASE_PATH}/${dest}`);
+        }
       }),
   );
 });

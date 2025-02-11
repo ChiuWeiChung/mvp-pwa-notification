@@ -1,9 +1,8 @@
 import NotificationRequest from '@/components/notification';
-// import Pwa from '@/components/pwa';
-// import Image from 'next/image';
-// import Link from 'next/link';
 import NewQuest from '../components/new-quest';
 import ReadNotification from '@/components/read-notification';
+// import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 gap-4">
@@ -14,7 +13,6 @@ export default function Home() {
       <NotificationRequest />
       <NewQuest />
       <ReadNotification />
-      {/* <Pwa /> */}
     </div>
   );
 }

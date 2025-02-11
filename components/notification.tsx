@@ -5,18 +5,19 @@ import { urlB64ToUint8Array } from '@/lib/utils';
 import { Switch } from './ui/switch';
 import { Label } from './ui/label';
 import { LoadingSpinner } from './ui/spinner';
-import useServiceWorkerMessageListener from '@/hooks/use-service-worker-listener';
+import useNotificationListener from '@/hooks/use-notification-listener';
 import PermissionStatus from '@/enums/permission-status';
-import useServiceWorkerRegistration from '@/hooks/use-service-worker-registration';
+import useRegisterServiceWorker from '@/hooks/use-register-service-worker';
 import { Button } from './ui/button';
+import { serviceWorkerPath } from '@/constants';
 
 /** 推播通知元件 */
 const NotificationRequest = () => {
-  useServiceWorkerRegistration();
+  useRegisterServiceWorker();
   const [permissionStatus, setPermissionStatus] = useState<NotificationPermission>(PermissionStatus.Default);
   const [subscriptionEndpoint, setSubscriptionEndpoint] = useState<string>('');
   const [showLoader, setShowLoader] = useState<boolean>(false);
-  useServiceWorkerMessageListener(permissionStatus);
+  useNotificationListener(permissionStatus);
 
   /** 取得目前的通知權限，並確認該裝置是否已經訂閱 */
   const getNotificationPermission = async (): Promise<void> => {
@@ -24,7 +25,7 @@ const NotificationRequest = () => {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) {
       status = PermissionStatus.Denied;
     } else {
-      const registration = await navigator.serviceWorker.getRegistration();
+      const registration = await navigator.serviceWorker.getRegistration(serviceWorkerPath);
       const subscription = await registration?.pushManager.getSubscription();
       if (subscription) {
         status = PermissionStatus.Granted;
@@ -52,9 +53,9 @@ const NotificationRequest = () => {
     }
 
     try {
-      let registration = await navigator.serviceWorker.getRegistration();
+      let registration = await navigator.serviceWorker.getRegistration(serviceWorkerPath);
       if (!registration) {
-        await navigator.serviceWorker.register('/service-worker.js');
+        await navigator.serviceWorker.register(serviceWorkerPath);
         registration = await navigator.serviceWorker.ready;
       }
       await subscribePush(registration);
@@ -99,7 +100,7 @@ const NotificationRequest = () => {
 
     try {
       // 取得已註冊的 Service Worker
-      const registration = await navigator.serviceWorker.getRegistration();
+      const registration = await navigator.serviceWorker.getRegistration(serviceWorkerPath);
       if (!registration) {
         console.error('找不到 Service Worker 註冊');
         return;

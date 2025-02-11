@@ -17,7 +17,7 @@ export default function NewQuest() {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-1/2">
+    <div className="flex flex-col gap-4 w-1/2 border border-gray-300 rounded-md p-2">
       <input type="text" value={endpoint} onChange={(e) => setEndpoint(e.target.value)} placeholder="Enter notification endpoint" className="border border-gray-300 rounded-md p-2" />
       <Button onClick={handlePushNotification}>Submit</Button>
     </div>

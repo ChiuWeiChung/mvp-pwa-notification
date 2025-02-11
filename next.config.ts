@@ -11,6 +11,7 @@ const withPWA = withPWAInit({
 });
 
 export default withPWA({
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH,
   reactStrictMode: false,
 
   // Your Next.js config
