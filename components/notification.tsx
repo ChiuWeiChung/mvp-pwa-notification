@@ -7,9 +7,12 @@ import { Label } from './ui/label';
 import { LoadingSpinner } from './ui/spinner';
 import useServiceWorkerMessageListener from '@/hooks/use-service-worker-listener';
 import PermissionStatus from '@/enums/permission-status';
+import useServiceWorkerRegistration from '@/hooks/use-service-worker-registration';
+import { Button } from './ui/button';
 
 /** 推播通知元件 */
 const NotificationRequest = () => {
+  useServiceWorkerRegistration();
   const [permissionStatus, setPermissionStatus] = useState<NotificationPermission>(PermissionStatus.Default);
   const [subscriptionEndpoint, setSubscriptionEndpoint] = useState<string>('');
   const [showLoader, setShowLoader] = useState<boolean>(false);
@@ -23,7 +26,12 @@ const NotificationRequest = () => {
     } else {
       const registration = await navigator.serviceWorker.getRegistration();
       const subscription = await registration?.pushManager.getSubscription();
-      status = subscription ? PermissionStatus.Granted : PermissionStatus.Default;
+      if (subscription) {
+        status = PermissionStatus.Granted;
+        setSubscriptionEndpoint(JSON.stringify(subscription));
+      } else {
+        status = PermissionStatus.Default;
+      }
     }
     setPermissionStatus(status);
   };
@@ -110,6 +118,7 @@ const NotificationRequest = () => {
       if (successful) {
         // TODO 串接 取消訂閱 API (在 DB 移除對應的 endpoint)
         setPermissionStatus(PermissionStatus.Default);
+        setSubscriptionEndpoint('');
         toast.info('已取消訂閱');
       } else toast.error('取消訂閱失敗');
     } catch (err) {
@@ -131,13 +140,29 @@ const NotificationRequest = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col gap-6 bg-gray-100 p-4 rounded-md border border-gray-200 w-1/2">
       <div className="flex items-center space-x-2">
         <Switch id="airplane-mode" checked={permissionStatus === PermissionStatus.Granted} onCheckedChange={onCheckedChange} disabled={showLoader} />
         <Label htmlFor="airplane-mode">訂閱通知</Label>
         {showLoader && <LoadingSpinner />}
       </div>
-      <div>Subscription: {subscriptionEndpoint}</div>
+      {/* add an copy button when subscriptionEndpoint is not empty */}
+      {subscriptionEndpoint && (
+        <>
+          <div className="max-h-[200px] max-w-full overflow-y-auto overflow-x-auto">
+            <code className="whitespace-pre-wrap break-all">{subscriptionEndpoint}</code>
+          </div>
+          {/* toast the success information when the copy button is clicked */}
+          <Button
+            onClick={() => {
+              navigator.clipboard.writeText(subscriptionEndpoint);
+              toast.success('已複製到剪貼簿');
+            }}
+          >
+            複製
+          </Button>
+        </>
+      )}
     </div>
   );
 };

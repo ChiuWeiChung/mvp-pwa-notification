@@ -1,17 +1,32 @@
 self.addEventListener('push', async (e) => {
-  const { message, body, dest, icon = '/web-app-manifest-192x192.png' } = JSON.parse(e.data.text());
+  const {
+    message,
+    body,
+    dest,
+    // 提供多個尺寸的圖示選項，包括 iOS 所需的尺寸
+    icon = '/icons/icon-192x192.png',
+    badge = '/icons/icon-96x96.png', // 新增 badge 圖示
+  } = JSON.parse(e.data.text());
+
   if (e.data) {
     const data = e.data.json();
     self.clients.matchAll({ includeUncontrolled: true }).then((clients) => {
       clients.forEach((client) => {
-        client.postMessage(data); // 傳送通知數據到前端頁面
+        client.postMessage(data);
       });
     });
+
+    // Set or the badge.
+    if (navigator.setAppBadge) {
+      navigator.setAppBadge(1);
+    }
+
     e.waitUntil(
       self.registration.showNotification(message, {
         body,
         data: { dest },
         icon,
+        badge, // 新增 badge 屬性
       }),
     );
   }

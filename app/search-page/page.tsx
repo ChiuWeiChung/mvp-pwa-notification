@@ -1,14 +1,16 @@
-import React from 'react'
-import TestComp from './components/test'
+import React, { Suspense } from 'react';
+import TestComp from './components/test';
 
 const SearchPage = () => {
-  console.log('in Search Page')
+  console.log('in Search Page');
   return (
     <>
       <div>SearchPage</div>
-      <TestComp />
+      <Suspense fallback="loading...">
+        <TestComp />
+      </Suspense>
     </>
   );
-}
+};
 
-export default SearchPage
+export default SearchPage;
