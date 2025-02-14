@@ -9,10 +9,10 @@ config();
 // Get current directory
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-// 获取环境变量
+// basePath 環境變數
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-// 定义 manifest 内容
+// 定義 manifest 内容
 const manifest = {
   id: 'pwa-example',
   name: 'JG CodeBase',
@@ -25,14 +25,20 @@ const manifest = {
       purpose: 'any',
     },
     {
-      src: `${basePath}/icons/apple-touch-icon-120x120.png`,
+      src: `${basePath}/icons/icon-120x120.png`,
       sizes: '120x120',
       type: 'image/png',
       purpose: 'any',
     },
     {
-      src: `${basePath}/icons/apple-touch-icon-152x152.png`,
+      src: `${basePath}/icons/icon-152x152.png`,
       sizes: '152x152',
+      type: 'image/png',
+      purpose: 'any',
+    },
+    {
+      src: `${basePath}/icons/icon-180x180.png`,
+      sizes: '180x180',
       type: 'image/png',
       purpose: 'any',
     },
@@ -43,7 +49,7 @@ const manifest = {
       purpose: 'any',
     },
     {
-      src: `${basePath}/icons/web-app-manifest-512x512.png`,
+      src: `${basePath}/icons/icon-512x512.png`,
       sizes: '512x512',
       type: 'image/png',
       purpose: 'maskable',
@@ -71,6 +77,6 @@ const manifest = {
   orientation: 'portrait',
 };
 
-// 将 manifest 写入文件
+// 將內容寫成 manifest.json 放入 public 資料夾中
 writeFileSync(join(__dirname, 'public', 'manifest.json'), JSON.stringify(manifest, null, 2));
 console.log('Manifest generated successfully.');

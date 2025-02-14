@@ -29,11 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="apple-touch-icon" sizes="180x180" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/apple-touch-icon.png`} />
-        <link rel="apple-touch-icon" sizes="152x152" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/apple-touch-icon-152x152.png`} />
-        <link rel="apple-touch-icon" sizes="120x120" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/apple-touch-icon-120x120.png`} />
-        <link rel="icon" type="image/png" sizes="192x192" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-192x192.png`} />
         <link rel="icon" type="image/png" sizes="96x96" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-96x96.png`} />
+        <link rel="apple-touch-icon" sizes="120x120" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-120x120.png`} />
+        <link rel="apple-touch-icon" sizes="152x152" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-152x152.png`} />
+        <link rel="apple-touch-icon" sizes="180x180" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-180x180.png`} />
+        <link rel="icon" type="image/png" sizes="192x192" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-192x192.png`} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
