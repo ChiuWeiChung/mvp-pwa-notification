@@ -19,8 +19,9 @@ export const sendNotification = async (message: string, name: string, endpoint: 
         JSON.parse(data.notification_json),
         JSON.stringify({
           message: name,
-          dest: '/rnd',
+          dest: '/somewhere',
           //   icon,
+          // TODO unread notification count from DB
           body: message,
         }),
       );

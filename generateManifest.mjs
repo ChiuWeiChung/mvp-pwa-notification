@@ -1,13 +1,14 @@
-// generateManifest.js
 import { writeFileSync } from 'fs';
 import { join } from 'path';
-import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 
 config();
 
+// Get command line arguments
+const args = process.argv.slice(2);
+const outputDir = args[0];
+
 // Get current directory
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 // basePath 環境變數
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
@@ -71,12 +72,17 @@ const manifest = {
   ],
   theme_color: '#ffffff',
   background_color: '#ffffff',
-  start_url: '/',
+  start_url: `${basePath ?? '/'}`,
   scope: '/',
   display: 'standalone',
   orientation: 'portrait',
 };
 
-// 將內容寫成 manifest.json 放入 public 資料夾中
-writeFileSync(join(__dirname, 'public', 'manifest.json'), JSON.stringify(manifest, null, 2));
-console.log('Manifest generated successfully.');
+function generateManifest(outputDir) {
+  // Write manifest.json to the output directory
+  writeFileSync(join(outputDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
+  console.log('Manifest generated successfully.');
+}
+
+// Call the function with command line arguments
+generateManifest(outputDir);

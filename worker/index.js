@@ -16,10 +16,17 @@ self.addEventListener('push', async (e) => {
       });
     });
 
-    // Set or the badge.
+    // test unread count (Note: this is for testing purpose, unread count should be from DB)
+    const unreadCount = 10;
+
     if (navigator.setAppBadge) {
-      navigator.setAppBadge(1);
+      if (unreadCount && unreadCount > 0) {
+        navigator.setAppBadge(unreadCount);
+      } else {
+        navigator.clearAppBadge();
+      }
     }
+
     console.log('====icon====', icon);
     e.waitUntil(
       self.registration.showNotification(message, {

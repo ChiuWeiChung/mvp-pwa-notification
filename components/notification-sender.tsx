@@ -4,7 +4,7 @@ import { sendNotification } from '@/actions/notification';
 import { toast } from 'sonner';
 import { useState } from 'react';
 
-export default function NewQuest() {
+export default function NotificationSender() {
   const [endpoint, setEndpoint] = useState('');
 
   const handlePushNotification = async () => {
@@ -17,7 +17,7 @@ export default function NewQuest() {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-1/2 border border-gray-300 rounded-md p-2">
+    <div className="flex flex-col gap-4 border w-full border-gray-300 rounded-md p-2 py-6">
       <input type="text" value={endpoint} onChange={(e) => setEndpoint(e.target.value)} placeholder="Enter notification endpoint" className="border border-gray-300 rounded-md p-2" />
       <Button onClick={handlePushNotification}>Submit</Button>
     </div>

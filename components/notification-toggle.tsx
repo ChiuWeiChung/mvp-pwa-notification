@@ -12,7 +12,7 @@ import { Button } from './ui/button';
 import { serviceWorkerPath } from '@/constants';
 
 /** 推播通知元件 */
-const NotificationRequest = () => {
+const NotificationToggle = () => {
   useRegisterServiceWorker();
   const [permissionStatus, setPermissionStatus] = useState<NotificationPermission>(PermissionStatus.Default);
   const [subscriptionEndpoint, setSubscriptionEndpoint] = useState<string>('');
@@ -141,7 +141,7 @@ const NotificationRequest = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 bg-gray-100 p-4 rounded-md border border-gray-200 w-1/2">
+    <div className="flex flex-col gap-6 bg-gray-100 p-4 rounded-md border border-gray-300">
       <div className="flex items-center space-x-2">
         <Switch id="airplane-mode" checked={permissionStatus === PermissionStatus.Granted} onCheckedChange={onCheckedChange} disabled={showLoader} />
         <Label htmlFor="airplane-mode">訂閱通知</Label>
@@ -160,7 +160,7 @@ const NotificationRequest = () => {
               toast.success('已複製到剪貼簿');
             }}
           >
-            複製
+            複製「推播 endpoint」
           </Button>
         </>
       )}
@@ -168,4 +168,4 @@ const NotificationRequest = () => {
   );
 };
 
-export default NotificationRequest;
+export default NotificationToggle;

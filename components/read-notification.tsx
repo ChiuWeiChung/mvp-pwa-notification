@@ -11,7 +11,7 @@ export default function ReadNotification() {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-1/2 border border-gray-300 rounded-md p-2">
+    <div className="flex flex-col gap-4 border border-gray-300 rounded-md p-2 w-full">
       <Button onClick={clearAppBadge} variant="destructive">
         Clear App Badge
       </Button>

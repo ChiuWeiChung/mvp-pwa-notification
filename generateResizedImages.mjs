@@ -1,41 +1,3 @@
-// import sharp from 'sharp';
-// import { join } from 'path';
-// import { mkdirSync, existsSync } from 'fs';
-
-// function generateResizedImages(inputImagePath, outputDir, sizes) {
-//   // Ensure the output directory exists
-//   if (!existsSync(outputDir)) {
-//     mkdirSync(outputDir, { recursive: true });
-//   }
-
-//   sizes.forEach((size) => {
-//     const outputFilePath = join(outputDir, `image-${size.width}x${size.height}.png`);
-
-//     sharp(inputImagePath)
-//       .resize(size.width, size.height)
-//       .toFile(outputFilePath, (err) => {
-//         if (err) {
-//           console.error(`Error resizing image to ${size.width}x${size.height}:`, err);
-//         } else {
-//           console.log(`Image resized to ${size.width}x${size.height} and saved to ${outputFilePath}`);
-//         }
-//       });
-//   });
-// }
-
-// // Example usage
-// const inputImagePath = './public/geton.png';
-// const outputDir = './img';
-// const sizes = [
-//   { width: 96, height: 96 },
-//   { width: 120, height: 120 },
-//   { width: 152, height: 152 },
-//   { width: 192, height: 192 },
-//   { width: 512, height: 512 },
-// ];
-
-// generateResizedImages(inputImagePath, outputDir, sizes);
-
 import sharp from 'sharp';
 import { join } from 'path';
 import { mkdirSync, existsSync } from 'fs';
@@ -61,7 +23,7 @@ const sizes = [
 
 function generateResizedImages(inputImagePath, outputDir, sizes) {
   sizes.forEach((size) => {
-    const outputFilePath = join(outputDir, `icon-${size.width}x${size.height}.png`);
+    const outputFilePath = join(`${outputDir}/icons`, `icon-${size.width}x${size.height}.png`);
 
     sharp(inputImagePath)
       .resize(size.width, size.height)
