@@ -6,7 +6,8 @@ const withPWA = withPWAInit({
   skipWaiting: true, // Activate service worker immediately
   clientsClaim: true, // Claim clients immediately
   sw: 'service-worker.js',
-  disable: false, // Disable in development mode
+  disable: false, // 若要關閉 PWA，則設為 true
+  buildExcludes: [/middleware-manifest.json$/, /^((app-|^)build-manifest\.json|react-loadable-manifest\.json)$/], // 排除 middleware-manifest.json 和 build-manifest.json
 });
 
 export default withPWA({
