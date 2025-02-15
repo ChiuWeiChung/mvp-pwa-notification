@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
 import { Button } from './ui/button';
-
+import { toast } from 'sonner';
 export default function ReadNotification() {
-  // add an ui button to set app badge to 0
   const clearAppBadge = () => {
     if (navigator.clearAppBadge) {
       navigator.clearAppBadge();
+      toast.success('App badge cleared');
     }
   };
 

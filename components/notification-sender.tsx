@@ -6,20 +6,25 @@ import { useState } from 'react';
 
 export default function NotificationSender() {
   const [endpoint, setEndpoint] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handlePushNotification = async () => {
     if (!endpoint) toast.error('Please enter an endpoint');
     else {
+      setLoading(true);
       const submitResult = await sendNotification('just completed a quest', 'meow', endpoint);
       const parsedResult = JSON.parse(submitResult);
       if (parsedResult.error) toast.error(parsedResult.error);
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col gap-4 border w-full border-gray-300 rounded-md p-2 py-6">
       <input type="text" value={endpoint} onChange={(e) => setEndpoint(e.target.value)} placeholder="Enter notification endpoint" className="border border-gray-300 rounded-md p-2" />
-      <Button onClick={handlePushNotification}>Submit</Button>
+      <Button onClick={handlePushNotification} disabled={loading}>
+        {loading ? 'Submitting...' : 'Submit'}
+      </Button>
     </div>
   );
 }

@@ -4,9 +4,8 @@ const withPWA = withPWAInit({
   dest: 'public', // Output directory for service worker
   register: true, // Automatically register service worker
   skipWaiting: true, // Activate service worker immediately
-  // scope: '/app',
+  clientsClaim: true, // Claim clients immediately
   sw: 'service-worker.js',
-  // disable: true, // Disable in development mode
   disable: false, // Disable in development mode
 });
 

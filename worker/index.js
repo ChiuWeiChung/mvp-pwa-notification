@@ -27,7 +27,6 @@ self.addEventListener('push', async (e) => {
       }
     }
 
-    console.log('====icon====', icon);
     e.waitUntil(
       self.registration.showNotification(message, {
         body,
