@@ -3,7 +3,7 @@
 這個專案是一個 Progressive Web App (PWA) 範例，主要功能包括推播通知和 PWA 安裝。以下是專案的簡單介紹：
 
 ## 專案目標
-該專案主要在展示如何使用 Next.js 和相關技術來實現 PWA 的功能，特別是推播通知的實現。
+該專案主要在展示如何使用 Next.js 和相關技術來實現 PWA 的功能，特別是推播通知的功能。
 
 ## 功能概述
 - **推播通知**：用戶可以訂閱推播通知，並在收到通知時顯示在設備上。
@@ -11,10 +11,10 @@
 - **通知管理**：用戶可以開啟或關閉通知訂閱，並查看通知內容。
 
 ## 技術棧
-- **Next.js**：用於構建 React 應用的框架。
-- **Web Push**：用於推播通知的服務。
-- **Service Worker**：用於處理推播通知和離線功能。
-- **Tailwind CSS**：用於設計和樣式的工具。
+- **web-push**：用於推播通知的服務。
+- **next-pwa**：Next.js 的 PWA 套件。
+  - 自動協助產生 service-worker.js：透過 next-pwa 自動生成並管理 service-worker.js。
+  - 支援自訂 service-worker.js，你可以在 worker/index.js 定義自己的推播通知邏輯。
 
 ## 主要文件和結構
 - **README.md**：提供了如何生成 VAPID keys 和設置環境變數的指南。
@@ -97,12 +97,12 @@ npm run dev
 │   └── utils.ts // 存放常用的工具函式
 ├── next.config.ts // 設定 next.config.ts (包含 next-pwa 的設定)
 ├── public
-│   ├── apple-touch-icon-precomposed.png // 蘋果的圖示
-│   ├── apple-touch-icon.png // 蘋果的圖示
-│   ├── geton.png // 推播通知的範例圖片
 │   ├── icons // 存放不同尺寸的圖片
-│   ├── manifest.json // 存放 manifest.json 的內容
+│   ├── apple-touch-icon-precomposed.png // 蘋果裝置所需的圖示
+│   ├── apple-touch-icon.png // 蘋果裝置所需的圖示
+│   ├── geton.png // 推播通知的範例圖片
 │   ├── nextjs.png // 推播通知的範例圖片
+│   ├── manifest.json // 存放 manifest.json 的內容
 └── worker
     └── index.js // Service Worker 檔案，處理推播通知的接收、顯示，以及點擊通知後的行為
 ```
@@ -121,7 +121,7 @@ npm run dev
 
 ## 3. 監聽通知
 **檔案位置**: [`hooks/use-notification-listener.ts`](hooks/use-notification-listener.ts)  
-**描述**: 當通知被授權時，這個 hook 會監聽來自 service worker 的消息。它使用 toast 庫向用戶顯示消息。
+**描述**: 當通知被授權時，這個 hook 會監聽來自 service worker 的消息，並向用戶顯示消息。
 
 ## 4. Service Worker 推播事件處理與 Badge 管理
 **檔案位置**: [`worker/index.js`](worker/index.js)  
@@ -129,23 +129,22 @@ npm run dev
 - `push`: 處理傳入的推播事件，顯示通知並更新應用程式徽章
 - `notificationclick`: 處理通知點擊事件，根據需要聚焦或打開新窗口
 
-**描述**: service worker 監聽推播事件，顯示通知並管理應用程式徽章計數。
+**描述**: service worker 監聽推播事件，顯示通知並管理 app badge 的數量(unread count)。
 
 ## 5. 發送通知
 **檔案位置**: [`components/notification-sender.tsx`](components/notification-sender.tsx)              
-**描述**: 這個組件提供發送通知的用戶界面。它接收一個端點並使用 `sendNotification` 動作發送通知。
+**描述**: 這個組件提供發送通知的用戶界面。它接收一個 endpoint 並使用 `sendNotification` 動作發送通知。
 
 ## 6. 通知相關的 API
 **檔案位置**: [`actions/notification.ts`](actions/notification.ts)  
-**描述**: 這個檔案包含了伺服器端的通知發送功能。它使用 web-push 庫來發送推播通知，並設定了 VAPID 金鑰來確保安全性。主要功能包括：
-- 設定 VAPID 金鑰用於推播通知的加密和身份驗證
-- 接收通知訊息和目標端點
-- 使用 web-push 發送通知到指定的端點
+**描述**: 這個檔案包含了伺服器端的通知發送功能。它使用 web-push 庫來發送推播通知，並設定了 VAPID 金鑰用於推播通知的加密和身份驗證。主要功能包括：
+- 接收通知訊息和目標 endpoint
+- 使用 web-push 發送通知到指定的 endpoint
 - 處理錯誤並回傳適當的回應
 
 ## 7. 清除應用程式徽章
 **檔案位置**: [`components/read-notification.tsx`](components/read-notification.tsx)  
-**描述**: 這個組件提供一個按鈕來清除應用程式徽章，使用 `navigator.clearAppBadge` API。
+**描述**: 這個組件提供一個按鈕來清除 app badge 的數量，使用 `navigator.clearAppBadge` API。
 
 ## 8. 彈出通知
 **檔案位置**: [`components/ui/sonner.tsx`](components/ui/sonner.tsx)  
