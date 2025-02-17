@@ -73,6 +73,7 @@ const manifest = {
   background_color: '#ffffff',
   start_url: `${basePath ?? '/'}`,
   scope: `${basePath ?? '/'}`,
+  display_override: ['fullscreen', 'minimal-ui', 'window-controls-overlay'],
   display: 'standalone',
   orientation: 'portrait',
 };

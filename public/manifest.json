@@ -58,6 +58,7 @@
   "background_color": "#ffffff",
   "start_url": "/jg-push-notification",
   "scope": "/jg-push-notification",
+  "display_override": ["fullscreen", "minimal-ui", "window-controls-overlay"],
   "display": "standalone",
   "orientation": "portrait"
 }
