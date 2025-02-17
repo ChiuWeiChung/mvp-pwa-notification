@@ -9,8 +9,8 @@ self.addEventListener('push', async (e) => {
       });
     });
 
-    // how to grab the base path from the env?
-    const basePath = self.NEXT_PUBLIC_BASE_PATH || '';
+    // Note: process.env.NEXT_PUBLIC_BASE_PATH 若沒有提供，會出錯
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
     const icon = `${basePath}/icons/icon-192x192.png`;
     const badge = `${basePath}/icons/icon-96x96.png`;
 

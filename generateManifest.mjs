@@ -72,7 +72,7 @@ const manifest = {
   theme_color: '#ffffff',
   background_color: '#ffffff',
   start_url: `${basePath ?? '/'}`,
-  scope: '/',
+  scope: `${basePath ?? '/'}`,
   display: 'standalone',
   orientation: 'portrait',
 };
