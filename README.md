@@ -2,7 +2,7 @@
 
 這個專案是一個 Progressive Web App (PWA) 範例，主要功能包括推播通知和 PWA 安裝。以下是專案的簡單介紹：
 
-![DEMO GIF](demo.gif)
+<img src="mobile.gif" alt="Mobile DEMO GIF" width="375px" />
 
 ## 專案目標
 該專案主要在展示如何使用 Next.js 和相關技術來實現 PWA 的功能，特別是推播通知的功能。

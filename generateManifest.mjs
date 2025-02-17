@@ -8,9 +8,8 @@ config();
 const args = process.argv.slice(2);
 const outputDir = args[0];
 
-// Get current directory
-
 // basePath 環境變數
+
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 // 定義 manifest 内容
@@ -58,13 +57,13 @@ const manifest = {
   ],
   screenshots: [
     {
-      src: `${basePath}/nextjs.png`,
+      src: `${basePath}/screenshot-1.png`,
       sizes: '1920x1080',
       type: 'image/png',
       form_factor: 'wide',
     },
     {
-      src: `${basePath}/geton.png`,
+      src: `${basePath}/screenshot-2.png`,
       sizes: '600x690',
       type: 'image/png',
       form_factor: 'narrow',

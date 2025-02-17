@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/sonner';
 
 import './globals.css';
 import Providers from './providers';
+import { basePath } from '@/constants';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  manifest: `${process.env.NEXT_PUBLIC_BASE_PATH}/manifest.json`,
+  manifest: `${basePath}/manifest.json`,
   title: 'Push Notification Demo',
   description: 'PWA 推播通知 DEMO',
 };
@@ -29,11 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/png" sizes="96x96" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-96x96.png`} />
-        <link rel="apple-touch-icon" sizes="120x120" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-120x120.png`} />
-        <link rel="apple-touch-icon" sizes="152x152" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-152x152.png`} />
-        <link rel="apple-touch-icon" sizes="180x180" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-180x180.png`} />
-        <link rel="icon" type="image/png" sizes="192x192" href={`${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-192x192.png`} />
+        <link rel="icon" type="image/png" sizes="96x96" href={`${basePath}/icons/icon-96x96.png`} />
+        <link rel="apple-touch-icon" sizes="120x120" href={`${basePath}/icons/icon-120x120.png`} />
+        <link rel="apple-touch-icon" sizes="152x152" href={`${basePath}/icons/icon-152x152.png`} />
+        <link rel="apple-touch-icon" sizes="180x180" href={`${basePath}/icons/icon-180x180.png`} />
+        <link rel="icon" type="image/png" sizes="192x192" href={`${basePath}/icons/icon-192x192.png`} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>

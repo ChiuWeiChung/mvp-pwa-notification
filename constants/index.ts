@@ -1,1 +1,1 @@
-export const serviceWorkerPath = `${process.env.NEXT_PUBLIC_BASE_PATH}/service-worker.js`;
+export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';

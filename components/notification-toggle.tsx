@@ -9,7 +9,7 @@ import useNotificationListener from '@/hooks/use-notification-listener';
 import PermissionStatus from '@/enums/permission-status';
 import useRegisterServiceWorker from '@/hooks/use-register-service-worker';
 import { Button } from './ui/button';
-import { serviceWorkerPath } from '@/constants';
+import { basePath } from '@/constants';
 
 /** 推播通知元件 */
 const NotificationToggle = () => {
@@ -25,7 +25,7 @@ const NotificationToggle = () => {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) {
       status = PermissionStatus.Denied;
     } else {
-      const registration = await navigator.serviceWorker.getRegistration(serviceWorkerPath);
+      const registration = await navigator.serviceWorker.getRegistration(`${basePath}/service-worker.js`);
       const subscription = await registration?.pushManager.getSubscription();
       if (subscription) {
         status = PermissionStatus.Granted;
@@ -53,12 +53,12 @@ const NotificationToggle = () => {
     }
 
     try {
-      let registration = await navigator.serviceWorker.getRegistration(serviceWorkerPath);
-      if (!registration) {
-        await navigator.serviceWorker.register(serviceWorkerPath);
-        registration = await navigator.serviceWorker.ready;
-      }
-      await subscribePush(registration);
+      const registration = await navigator.serviceWorker.getRegistration(`${basePath}/service-worker.js`);
+      if (registration) await subscribePush(registration);
+      // if (!registration) {
+      //   await navigator.serviceWorker.register(`${basePath}/service-worker.js`);
+      //   registration = await navigator.serviceWorker.ready;
+      // }
     } catch (err) {
       console.error('Error during service worker registration or subscription:', err);
       toast.error('Error during service worker registration or subscription.');
@@ -100,7 +100,7 @@ const NotificationToggle = () => {
 
     try {
       // 取得已註冊的 Service Worker
-      const registration = await navigator.serviceWorker.getRegistration(serviceWorkerPath);
+      const registration = await navigator.serviceWorker.getRegistration(`${basePath}/service-worker.js`);
       if (!registration) {
         console.error('找不到 Service Worker 註冊');
         return;

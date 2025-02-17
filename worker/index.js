@@ -1,12 +1,5 @@
 self.addEventListener('push', async (e) => {
-  const {
-    message,
-    body,
-    dest,
-    // 提供多個尺寸的圖示選項，包括 iOS 所需的尺寸
-    icon = `${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-192x192.png`,
-    badge = `${process.env.NEXT_PUBLIC_BASE_PATH}/icons/icon-96x96.png`, // 新增 badge 圖示
-  } = JSON.parse(e.data.text());
+  const { message, body, dest, unreadCount } = JSON.parse(e.data.text());
 
   if (e.data) {
     const data = e.data.json();
@@ -16,8 +9,10 @@ self.addEventListener('push', async (e) => {
       });
     });
 
-    // test unread count (Note: this is for testing purpose, unread count should be from DB)
-    const unreadCount = 10;
+    // how to grab the base path from the env?
+    const basePath = self.NEXT_PUBLIC_BASE_PATH || '';
+    const icon = `${basePath}/icons/icon-192x192.png`;
+    const badge = `${basePath}/icons/icon-96x96.png`;
 
     if (navigator.setAppBadge) {
       if (unreadCount && unreadCount > 0) {
@@ -31,7 +26,7 @@ self.addEventListener('push', async (e) => {
       self.registration.showNotification(message, {
         body,
         data: { dest },
-        icon,
+        icon, // 新增 icon 屬性
         badge, // 新增 badge 屬性
       }),
     );
@@ -59,7 +54,7 @@ self.addEventListener('notificationclick', (event) => {
         // If no existing window found, open new one
         if (clients.openWindow) {
           const dest = event.notification.data?.dest || '/';
-          return clients.openWindow(`${process.env.NEXT_PUBLIC_BASE_PATH}/${dest}`);
+          return clients.openWindow(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/${dest}`);
         }
       }),
   );
