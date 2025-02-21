@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { sendNotification } from '@/actions/notification';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { subscriptionSchema } from '@/actions/types';
 
 export default function NotificationSender() {
   const [endpoint, setEndpoint] = useState('');
@@ -12,10 +13,21 @@ export default function NotificationSender() {
     if (!endpoint) toast.error('Please enter an endpoint');
     else {
       setLoading(true);
-      const submitResult = await sendNotification('just completed a quest', 'meow', endpoint);
-      const parsedResult = JSON.parse(submitResult);
-      if (parsedResult.error) toast.error(parsedResult.error);
-      setLoading(false);
+      const parsedEndpoint = JSON.parse(endpoint);
+      // validate the subscription
+      console.log('parsedEndpoint', parsedEndpoint);
+      const { data: subscription, success, error } = subscriptionSchema.safeParse(parsedEndpoint);
+      if (!success) {
+        toast.error('Invalid subscription');
+        console.log('error', error);
+        setLoading(false);
+      }
+      else {
+        const params = {message:'meow', body:'just completed a quest', subscription};
+        const submitResult = await sendNotification(params);
+        if(!submitResult.isSuccess) toast.error(submitResult.message);
+        setLoading(false);
+      }
     }
   };
 
