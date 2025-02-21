@@ -12,21 +12,15 @@ export default function NotificationSender() {
   const handlePushNotification = async () => {
     if (!endpoint) toast.error('Please enter an endpoint');
     else {
-      setLoading(true);
       const parsedEndpoint = JSON.parse(endpoint);
-      // validate the subscription
-      console.log('parsedEndpoint', parsedEndpoint);
-      const { data: subscription, success, error } = subscriptionSchema.safeParse(parsedEndpoint);
-      if (!success) {
-        toast.error('Invalid subscription');
-        console.log('error', error);
-        setLoading(false);
-      }
+      const { data: subscription, success } = subscriptionSchema.safeParse(parsedEndpoint);
+      if (!success) toast.error('Invalid subscription');
       else {
-        const params = {message:'meow', body:'just completed a quest', subscription};
+        const params = { message: 'meow', body: 'just completed a quest', subscription };
+        setLoading(true);
         const submitResult = await sendNotification(params);
-        if(!submitResult.isSuccess) toast.error(submitResult.message);
         setLoading(false);
+        if (!submitResult.isSuccess) toast.error(submitResult.message);
       }
     }
   };

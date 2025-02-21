@@ -1,12 +1,9 @@
 'use server';
 import webpush from 'web-push';
 import { SendNotification } from './types';
+import { vapidPublicKey, vapidPrivateKey } from '@/constants';
 
-const vapidKeys = {
-  publicKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  privateKey: process.env.VAPID_PRIVATE_KEY!,
-};
-webpush.setVapidDetails('mailto:rick@jgallop.com', vapidKeys.publicKey, vapidKeys.privateKey);
+webpush.setVapidDetails('mailto:rick@jgallop.com', vapidPublicKey, vapidPrivateKey);
 
 export const sendNotification: SendNotification = async ({
   body,

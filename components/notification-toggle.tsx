@@ -9,7 +9,7 @@ import useNotificationListener from '@/hooks/use-notification-listener';
 import PermissionStatus from '@/enums/permission-status';
 import useRegisterServiceWorker from '@/hooks/use-register-service-worker';
 import { Button } from './ui/button';
-import { basePath } from '@/constants';
+import { basePath, vapidPublicKey } from '@/constants';
 
 /** 推播通知元件 */
 const NotificationToggle = () => {
@@ -69,7 +69,7 @@ const NotificationToggle = () => {
    * 利用取得的 Service Worker 註冊資訊進行推播訂閱
    */
   const subscribePush = async (registration: ServiceWorkerRegistration): Promise<void> => {
-    const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+    
     if (!vapidPublicKey) {
       console.error('VAPID public key is not defined');
       toast.error('VAPID public key is not defined');
