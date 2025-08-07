@@ -3,7 +3,7 @@ import webpush from 'web-push';
 import { SendNotification } from './types';
 import { vapidPublicKey, vapidPrivateKey } from '@/constants';
 
-webpush.setVapidDetails('mailto:rick@jgallop.com', vapidPublicKey, vapidPrivateKey);
+webpush.setVapidDetails('mailto:xxx@xxxexample.com', vapidPublicKey, vapidPrivateKey);
 
 export const sendNotification: SendNotification = async ({
   body,

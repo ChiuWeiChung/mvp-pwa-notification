@@ -15,8 +15,8 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 // 定義 manifest 内容
 const manifest = {
   id: 'pwa-example',
-  name: 'JG CodeBase',
-  short_name: 'JG',
+  name: 'Rick Notification',
+  short_name: 'Rick Notify',
   icons: [
     {
       src: `${basePath}/icons/icon-96x96.png`,

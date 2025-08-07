@@ -1,6 +1,14 @@
 # PWA 推播通知 DEMO
 
-這個專案是一個 Progressive Web App (PWA) 範例，主要功能包括推播通知和 PWA 安裝。以下是專案的簡單介紹：
+這是一個簡單的 Progressive Web App（PWA）範例，主要實作以下兩個功能：
+* 推播通知（Push Notification）
+* PWA 安裝體驗（Add to Home Screen）
+
+最近剛好在工作上遇到類似需求，便趁機做了這個小專案，作為整合 PWA 和推播功能的 MVP，方便自己測試與驗證技術可行性，也為後續可能的擴充做準備。
+
+同時也想藉這個機會，跟公司內部進行簡單的 Demo 與分享，讓大家對相關技術有初步了解，因此衍生出這個範例專案。
+
+> NOTE：本專案純屬個人練習用途，內容與公司實際專案無關，亦不涉及任何業務邏輯或商業模型。
 
 <img src="mobile.gif" alt="Mobile DEMO GIF" width="375px" />
 
@@ -46,7 +54,7 @@ NEXT_PUBLIC_VAPID_PUBLIC_KEY=BBmjtePily0Ij9mYW6F-xfwtC1LwyNZ5HGbsPrTTGUMyci973JQ
 # 設置 vapid private key
 VAPID_PRIVATE_KEY=5qN7FUqNd7_3CSR1xreutDXMKJL5fvbil-ggpx-MtHg
 # 設置 base path
-NEXT_PUBLIC_BASE_PATH=/jg-push-notification
+NEXT_PUBLIC_BASE_PATH=/rick-push-notification
 ```
 
 ### 3. 產生 manifest.json 以及所需圖片
@@ -112,12 +120,12 @@ npm run dev
 
 ## 1. Service Worker 註冊
 **檔案位置**: [`hooks/use-register-service-worker.ts`](hooks/use-register-service-worker.ts)   
-**描述**: 當組件掛載時，這個 hook 會註冊一個 service worker。它會檢查瀏覽器是否支持 service worker，並在未註冊的情況下進行註冊。
+**描述**: 當 Component On Mount 時，這個 hook 會註冊一個 service worker。它會檢查瀏覽器是否支持 service worker，並在未註冊的情況下進行註冊。
 
 ## 2. 通知權限和訂閱
 **檔案位置**: [`components/notification-toggle.tsx`](components/notification-toggle.tsx)  
 **描述**:
-- 這個組件管理通知訂閱狀態
+- 這個 Component 管理通知訂閱狀態
 - 它向用戶請求通知權限，並使用 service worker 訂閱推播通知
 - 它使用 `useNotificationListener` hook 來監聽來自 service worker 的消息
 
@@ -135,7 +143,7 @@ npm run dev
 
 ## 5. 發送通知
 **檔案位置**: [`components/notification-sender.tsx`](components/notification-sender.tsx)              
-**描述**: 這個組件提供發送通知的用戶界面。它接收一個 endpoint 並使用 `sendNotification` 動作發送通知。
+**描述**: 這個 Component 提供發送通知的用戶界面。它接收一個 endpoint 並使用 `sendNotification` 動作發送通知。
 
 ## 6. 通知相關的 API
 **檔案位置**: [`actions/notification.ts`](actions/notification.ts)  
@@ -146,12 +154,12 @@ npm run dev
 
 ## 7. 清除應用程式徽章
 **檔案位置**: [`components/read-notification.tsx`](components/read-notification.tsx)  
-**描述**: 這個組件提供一個按鈕來清除 app badge 的數量，使用 `navigator.clearAppBadge` API。
+**描述**: 這個 Component 提供一個按鈕來清除 app badge 的數量，使用 `navigator.clearAppBadge` API。
 
 ## 8. 彈出通知
 **檔案位置**: [`components/ui/sonner.tsx`](components/ui/sonner.tsx)  
-**組件**: `Toaster`  
-**描述**: 這個組件使用 sonner 庫來顯示彈出通知，並適應當前主題。
+**Component**: `Toaster`  
+**描述**: 這個 Component 使用 sonner 庫來顯示彈出通知，並適應當前主題。
 
 
 ## 參考文件
