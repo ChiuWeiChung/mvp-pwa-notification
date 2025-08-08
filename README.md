@@ -176,6 +176,51 @@ npm run dev
 **Component**: `Toaster`  
 **描述**: 這個 Component 使用 sonner 庫來顯示彈出通知，並適應當前主題。
 
+## 元件處理流程
+
+```mermaid
+flowchart TD
+  A([開始]) --> B["NotificationToggle 初始化"]
+  B --> C["useRegisterServiceWorker - 註冊 Service Worker"]
+  C --> D["useEffect - 讀取通知權限 (Notification.permission)"]
+  D --> E["使用者切換開關 on/off（onCheckedChange）"]
+
+  %% 開啟（訂閱）
+  E -->|on| F["請求通知權限 Notification.requestPermission()"]
+  F -->|granted| G["建立 Push 訂閱 registration.pushManager.subscribe(...)"]
+  G --> H["回報訂閱到後端 subscribeUser(POST /api/your-subscriptions)"]
+  H --> I["更新本地狀態（已訂閱/endpoint）"]
+  I --> J["useNotificationListener - 監聽 SW 訊息 → toast / router.push"]
+
+  %% 關閉（退訂）
+  E -->|off| X["取消瀏覽器端訂閱 subscription.unsubscribe()"]
+  X --> Y["通知後端解除綁定 unsubscribeUser(DELETE /api/your-subscriptions)"]
+  Y --> Z["更新本地狀態（未訂閱）"]
+
+  J --> END([結束])
+  Z --> END
+```
+
+---
+
+## API 觸發推播通知
+
+```mermaid
+flowchart TD
+  %% Server 發送推播
+  S[[管理端/第三方 Server 觸發]] --> T["POST /api/notification (route.ts)"]
+  T --> U["sendNotification(payload) - 後端發 Web Push"]
+  U --> K1
+
+  %% Service Worker 處理
+  subgraph SW["Service Worker (index.js)"]
+    K1[["push 事件"]] --> K2["clients.postMessage(data) 廣播給頁面"]
+    K1 --> K3["setAppBadge / clearAppBadge (若支援)"]
+    K1 --> K4["showNotification(message, { body, data:{dest}, icon, badge })"]
+    K5[["notificationclick 事件"]] --> K6["focus 視窗 或 openWindow(BASE_PATH + '/' + dest)"]
+  end
+```
+
 
 ## 參考文件
 - [如何註冊 service worker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register)
