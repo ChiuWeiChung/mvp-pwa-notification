@@ -1,4 +1,10 @@
-# PWA 推播通知 DEMO
+---
+title: PWA 筆記 - 推播通知實作
+description: 使用 Next.js 實作 PWA 推播通知與安裝體驗的 MVP 範例專案
+createdAt: 2025-02-21
+---
+
+# PWA 筆記 - 推播通知實作
 
 這是一個簡單的 Progressive Web App（PWA）範例，主要實作以下兩個功能：
 * 推播通知（Push Notification）
@@ -35,6 +41,13 @@
 
 ## 環境設定
 
+### 0. 確認本身主機是否有開啟瀏覽器通知的設定
+
+在測試推播通知功能前，請先確認電腦系統已允許瀏覽器顯示通知。
+以 Mac + Chrome 為例，請到 系統設定 → 通知 → Google Chrome，開啟「允許通知」選項，並確保其他相關通知權限（例如顯示於通知中心、播放通知聲音等）也已啟用，這樣才能正常接收到推播訊息。
+
+<img src="warning.png" alt="Setting Warning" width="375px" />
+
 ### 1. 產生 VAPID Keys
 
 首先需要產生推播通知所需的 VAPID (Voluntary Application Server Identification) keys：
@@ -56,6 +69,8 @@ VAPID_PRIVATE_KEY=5qN7FUqNd7_3CSR1xreutDXMKJL5fvbil-ggpx-MtHg
 # 設置 base path
 NEXT_PUBLIC_BASE_PATH=/rick-push-notification
 ```
+
+> 注意：請確保 NEXT_PUBLIC_BASE_PATH 的設定與 ./public/manifest.json 中 icon 的 src 路徑前綴一致，否則 PWA 圖示可能無法正確顯示。
 
 ### 3. 產生 manifest.json 以及所需圖片
 
